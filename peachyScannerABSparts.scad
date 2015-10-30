@@ -14,7 +14,7 @@ groveDiameter = 3; // track diamerter
 fnGrove = 10; 
 groveResolution = 10;
 returnGroveDegrees = 90;
-shaftOD = 1;
+shaftOD = 1.35;
 
 groveRevolutions = 2;
 groveDegrees = 360 * groveRevolutions;
@@ -26,14 +26,14 @@ totalCamRadius = crankHandleRadius + wallThickness * 2 + (crankHandleRadius - ca
 
 
 
-toothWidth = 5;
-toothLength = 10;
+toothWidth = 5/2;
+toothLength = 10/2;
 toothTipChopFactor = .3;
 
 intermitantGearRadius = 13;
 pivotArmLength = totalCamRadius * 2;
 
-gearMeshTightnessFactor= .5;
+gearMeshTightnessFactor= .5+.1;
 handCrankGearRadius = 7;
 fn = 20;
 camSledLengthFactor = 2;
@@ -65,6 +65,8 @@ module partsPlate()
     bace();
     translate([0,-(handCrankGearTranslate + wallThickness + toothLength), 0]) color("pink")
     handCrankGear();
+    translate([totalCamRadius + toothLength, -totalCamRadius - toothLength,0]) color("lightpink")
+    camSled();
     
     
 }
@@ -271,7 +273,7 @@ module crank()
         circle(totalCamRadius, center = true);
         camTrack();
         camTrackPegs();
-        circle(shaftOD/2,center = true);
+        circle(shaftOD/2,center = true, $fn=fn);
     }
 }
 
@@ -285,7 +287,7 @@ module crankBottom()
         
         circle(totalCamRadius, center = true);
         camTrackPegs();
-        circle(shaftOD/2,center = true);
+        circle(shaftOD/2,center = true,$fn=fn);
     }
     gear(totalCamRadius);
 }
