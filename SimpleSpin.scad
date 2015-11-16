@@ -1,0 +1,19 @@
+module simpleSpin(a=25/2,b=15,c=5,hA=2.55/2,hB=2.7/2,fnA=30,f=(25/2-5)-2){
+    difference(){
+        union(){
+            circle(a+c,$fn=fnA);
+            translate([-a,0])square([2*a,a*3+b+(a-c)]);
+        }
+        circle(a,$fn=fnA);
+        translate([-c/2,0])square([c,b+a]);
+        translate([0,b+a])circle((a-c),$fn=fnA);
+        translate([0,a*2+b+(a-c)])circle(hB,$fn=fnA);
+    }    
+    circle(hA,$fn=fnA);
+    translate([0,b+a])
+        difference(){
+            circle(f,$fn=fnA);
+            circle(hA,$fn=fnA);
+        }
+}
+simpleSpin(fnA=50);
