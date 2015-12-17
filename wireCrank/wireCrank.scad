@@ -1,8 +1,11 @@
+keyHeightTightness = .5;
+
+
 $fn = 40;
 sheetThickness = 3;
 wallThickness = 3;
 plankLength = .1;
-wireDiameter = 1;
+wireDiameter = 1.6;
 handleRadius = 15;
 crankHeight = 10 + handleRadius;
 
@@ -11,7 +14,7 @@ pegLength = wallThickness ;
 pegDeapth = sheetThickness + wallThickness;
 
 guideHeight = 4; 
-legHeight = crankHeight + wallThickness * 2;
+legHeight = crankHeight ;//+ wallThickness * 2 * 3 *($t + 1);
 flextureGive = .5;
 keyHeight = legHeight/4;
 totalKeyHeight = wallThickness + sheetThickness + keyHeight + sheetThickness;
@@ -27,14 +30,14 @@ fingerHoleDiameter = baseWidth -wallThickness*2;
 
 module halfBase()
 {
-    translate([-baseWidth/2, 0,0]){
+    translate([-baseWidth/2 + .01, 0,0]){
     difference()
     {
         square([baseWidth/2,baseLength]);
         translate([wallThickness,wallThickness,0])
         square([sheetThickness, pegLength]);
         translate([baseWidth/2 -(pullyWidth/2 - slotPocketDeapth),0,0])
-        square([pullyWidth/2 - slotPocketDeapth, legHeight/2]);
+        #square([pullyWidth/2 - slotPocketDeapth, legHeight/2 + wallThickness + sheetThickness * 2]);
         translate([wallThickness,wallThickness + legHeight - pegLength,0])
         square([sheetThickness, pegLength]);
         translate([baseWidth/2, baseLength - fingerHoleDiameter/2 - wallThickness,0])
@@ -90,8 +93,11 @@ module keyHalf()
         difference()
         {
         square([ pullyWidth/2, totalKeyHeight]);
+                    translate([1.5,totalKeyHeight-6,0])
+            #circle(1);
         translate([pullyWidth/2 -slotPocketDeapth,sheetThickness,0])
             square([slotPocketDeapth,sheetThickness]);
+
         } 
      translate([0,totalKeyHeight- wallThickness,0])
      square([pullyWidth/2 + sheetThickness + wallThickness, wallThickness]);
@@ -113,6 +119,8 @@ translate([-10,0,0])
 key();
 
 
+
+
 module leg()
 {
     union()
@@ -120,10 +128,10 @@ module leg()
         difference()
         {
             legTriangle();
-            translate([crankHeight + wallThickness * 1.15,crankHeight,0])
-            circle(wireDiameter/2);
+            translate([ legHeight - wallThickness ,legHeight - wallThickness *2.25,0])
+            #circle(wireDiameter/2);
             
-            translate([legHeight/6,keyHeight,0]) rotate(1)
+            translate([legHeight/6,keyHeight + keyHeightTightness,0]) rotate(1)
             legFlexture();
         }
         translate([0,-pegDeapth,0])
@@ -135,4 +143,6 @@ module leg()
     }
 }
 
+leg();
+translate([0,40,0])
 leg();
