@@ -5,13 +5,13 @@ $fn = 40;
 sheetThickness = 3;
 wallThickness = 3;
 plankLength = .1;
-wireDiameter = 1.6;
+wireDiameter = 1.6 -.1;
 handleRadius = 15;
 crankHeight = 10 + handleRadius;
 
 pullyWidth = 9;
-pegLength = wallThickness ;
-pegDeapth = sheetThickness + wallThickness;
+pegLength = wallThickness * 2 ;
+pegDeapth =  sheetThickness;
 
 guideHeight = 4; 
 legHeight = crankHeight ;//+ wallThickness * 2 * 3 *($t + 1);
@@ -20,7 +20,7 @@ keyHeight = legHeight/4;
 totalKeyHeight = wallThickness + sheetThickness + keyHeight + sheetThickness;
 
 slotPocketDeapth = 2;
-
+ropeGuideHoleDiameter = 2.1;
 
 
 baseWidth = pullyWidth + sheetThickness * 2 + wallThickness * 2;
@@ -94,15 +94,19 @@ module keyHalf()
         {
         square([ pullyWidth/2, totalKeyHeight]);
                     translate([1.5,totalKeyHeight-6,0])
-            #circle(1);
+            #circle(ropeGuideHoleDiameter/2);
         translate([pullyWidth/2 -slotPocketDeapth,sheetThickness,0])
             square([slotPocketDeapth,sheetThickness]);
 
         } 
      translate([0,totalKeyHeight- wallThickness,0])
-     square([pullyWidth/2 + sheetThickness + wallThickness, wallThickness]);
-     translate([pullyWidth/2 + sheetThickness ,totalKeyHeight- wallThickness -slotPocketDeapth ,0])
-     square([wallThickness,slotPocketDeapth]);   
+     square([pullyWidth/2 + sheetThickness + wallThickness *2, wallThickness]);
+     translate([pullyWidth/2 + sheetThickness ,totalKeyHeight- wallThickness -slotPocketDeapth - wallThickness  ,0])
+        difference(){
+     square([wallThickness* 2,slotPocketDeapth + wallThickness ]);
+            translate([wallThickness,wallThickness,0])
+         #circle(ropeGuideHoleDiameter/2, center = true);
+        }   
     }
     
 }
@@ -129,13 +133,17 @@ module leg()
         {
             legTriangle();
             translate([ legHeight - wallThickness ,legHeight - wallThickness *2.25,0])
-            #circle(wireDiameter/2);
+            circle(wireDiameter/2);
+            translate([ legHeight/1.35 - wallThickness ,legHeight /1.29- wallThickness *2.25,0])
+            circle(ropeGuideHoleDiameter/2);
+            translate([ legHeight - wallThickness ,legHeight /1.29- wallThickness *2.25,0])
+            circle(ropeGuideHoleDiameter/2);
             
             translate([legHeight/6,keyHeight + keyHeightTightness,0]) rotate(1)
             legFlexture();
         }
         translate([0,-pegDeapth,0])
-        square([pegLength, pegDeapth]);
+        #square([pegLength, pegDeapth]);
         translate([legHeight- pegLength,-pegDeapth,0])
         square([pegLength, pegDeapth]);
         
